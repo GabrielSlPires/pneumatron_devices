@@ -111,6 +111,8 @@ void setup() {
 
   interval = interval * 60000;
   t_measure = millis() + (interval);
+
+  randomSeed(micros() + pneumatron); //Start random generator
 }
 
 void loop() {
@@ -125,7 +127,7 @@ void loop() {
 
     for(int i = 0; i < duration; i++) { // Read BMP280 for time set in duration
       
-      data.humid = ""; // BMP280 do not measures humid
+      data.humid = 0; // BMP280 do not measures humid
       data.pressure = bmp.readPressure() / 1000.0F;
       data.temp = bmp.readTemperature();
 

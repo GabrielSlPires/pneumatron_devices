@@ -58,11 +58,13 @@ void setup() {
 
   interval = interval * 60000;
   t_measure = millis() + (interval);
+
+  randomSeed(micros() + pneumatron); //Start random generator
 }
 
 void loop() {
   pressure = ads.readADC_Differential_0_1();
-  pressure = ((pressure) * (slope) + intercept);
+  pressure = 101.325 - ((pressure) * (slope) + intercept); // Convert output to absolute pressure 
   
   time_diff = millis() - t_measure;
   if (time_diff > interval) { // TRUE after interval (in minutes)
