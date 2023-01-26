@@ -21,8 +21,9 @@ struct {
   int sequence;
   int measure;
   int log_line;
-  float temp;
+  float humid;
   float pressure;
+  float temp;
   float v;
   String version;
 } data;
@@ -43,9 +44,11 @@ void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
   message_output += ",";
   message_output += String(data.log_line);  
   message_output += ",";
-  message_output += String(data.temp);
+  message_output += String(data.humid);
   message_output += ",";
   message_output += String(data.pressure);
+  message_output += ",";
+  message_output += String(data.temp);
   message_output += ",";
   message_output += String(data.v);  
   message_output += ",";
