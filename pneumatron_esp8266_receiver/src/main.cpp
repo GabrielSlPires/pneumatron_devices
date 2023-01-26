@@ -1,76 +1,70 @@
-#include "Arduino.h"
-#include <ESP8266WiFi.h>
+/*
+  Pneumatron Sender Software - 01/2023 - v4
+  by: Luciano Pereira & Gabriel Pires (gabriel.slpires@gmail.com)
+
+  This code receives data from several Pneumatrons
+
+  Code available in: https://github.com/GabrielSlPires/pneumatron_devices
+  Code developed in PlatformIO enviroment
+*/
+
+#include "Arduino.h" // For PlatformIO
+
+// For wireless communication
+#include <ESP8266WiFi.h> 
 #include <espnow.h>
 
-// Structure example to receive data
-// Must match the sender structure
-
-// Set your new MAC Address
-//uint8_t newMACAddress[] = {0x32, 0xAE, 0xA4, 0x07, 0x0D, 0x66};
-
-typedef struct struct_message {
+// data structure for wireless communication
+struct {
   int id;
-  unsigned long ms;
-  float temp1;
-  float humid1;
-  float pressure;
-  float temp2;
-  float humid2;
-  float pressure2;
-  long sequence;
-  long measure;
+  int group;
+  int sequence;
+  int measure;
   int log_line;
+  float temp;
+  float pressure;
   float v;
-} struct_message;
-
-struct_message myData;
+  String version;
+} data;
 
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
-  memcpy(&myData, incomingData, sizeof(myData));
-  String dataString = "";
-  dataString += String(myData.id);
-  dataString += ",";
-  dataString += String(myData.ms);
-  dataString += ",";
-  dataString += String(myData.temp1);
-  dataString += ",";
-  dataString += String(myData.pressure);
-  dataString += ",";
-  dataString += String(myData.humid1);  
-  dataString += ",";
-  dataString += String(myData.temp2);
-  dataString += ",";
-  dataString += String(myData.pressure2);
-  dataString += ",";
-  dataString += String(myData.humid2);  
-  dataString += ",";
-  dataString += String(myData.sequence);
-  dataString += ",";
-  dataString += String(myData.measure);
-  dataString += ",";
-  dataString += String(myData.log_line);
-  dataString += ",";
-  dataString += String(myData.v);
-  dataString += "\n";
-  Serial.println(dataString);
+  // Store received incomingData in data
+  memcpy(&data, incomingData, sizeof(data));
+  // Create message print in serial output
+  String message_output;
+
+  message_output = String(data.id);
+  message_output += ",";
+  message_output += String(data.group);
+  message_output += ",";
+  message_output += String(data.sequence);
+  message_output += ",";
+  message_output += String(data.measure);
+  message_output += ",";
+  message_output += String(data.log_line);  
+  message_output += ",";
+  message_output += String(data.temp);
+  message_output += ",";
+  message_output += String(data.pressure);
+  message_output += ",";
+  message_output += String(data.v);  
+  message_output += ",";
+  message_output += String(data.version);
+  message_output += "\n";
+
+  Serial.println(message_output);
 }
  
 void setup() {
-  // Initialize Serial Monitor
   Serial.begin(115200);
-  // Set device as a Wi-Fi Station
-  WiFi.mode(WIFI_STA);
+
+  WiFi.mode(WIFI_STA); // Set device as a Wi-Fi Station
 
   // Init ESP-NOW
   if (esp_now_init() != 0) {
     Serial.println("Error initializing ESP-NOW");
     return;
   }
-
-  //wifi_set_macaddr(STATION_IF, &newMACAddress[0]);
-  
-  Serial.print("[NEW] ESP8266 Board MAC Address:  ");
-  Serial.println(WiFi.macAddress());
   
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info
