@@ -43,6 +43,9 @@ const int btn2 = 0;        // D3 (wemos)
 const int led1 = 15;       // D8 (wemos)
 const int led2 = 2;        // D4 (wemos)
 
+// variable types
+enum DeviceMode { // define device modes
+  GAS_DISCHARGE,
   VESSEL_LENGTH,
 };
 
@@ -65,6 +68,8 @@ struct { // data structure for wireless communication
   //String version = "v3"; // se usar o novo jeito de fazer o ad, tem q ser v4
 } data; // adicionar uma nova coluna, mode: ad ou vld
 
+// global variables
+DeviceMode deviceMode = GAS_DISCHARGE; // Start with GAS_DISCHARGE
 Adafruit_BMP280 bmp; // For BMP280
 
 ADC_MODE(ADC_VCC);  // to measure voltage
@@ -97,17 +102,15 @@ void setup() {
   WiFi.disconnect();
   // Init ESP-NOW
   while (esp_now_init() != 0) {
+    ledFlashDisconnected();
     Serial.println("Error initializing ESP-NOW");
     return;
   } 
-
   // Set ESP-NOW role
   esp_now_set_self_role(ESP_NOW_ROLE_CONTROLLER);
-
   // Once ESPNow is successfully init, we will register for Send CB to
   // get the status of Trasnmitted packet
   esp_now_register_send_cb(OnDataSent);
-  
   // Register peer
   esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
 
@@ -121,7 +124,7 @@ void setup() {
 }
 
 void loop() {
-  check_button1_to_change_mode();
+  buttonCheckChangeMode();
   switch (deviceMode) {
     case (AIR_DISCHARGE):
       loopAirDischarge();
