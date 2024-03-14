@@ -85,6 +85,13 @@ void setup() {
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
 
+  // initialize I2C communication
+  while (!bmp.begin(0x76)) { //don't start if BMP280 fail to initialize
+    ledBMP280failed();
+    Serial.println("Failed to initialize BMP280");
+  }
+
+  // initialize Wifi communication
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA); 
   WiFi.disconnect();
