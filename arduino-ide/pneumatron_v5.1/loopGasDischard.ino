@@ -21,15 +21,6 @@ void loopGasDischarge() {
   }
   ledFlashGasDischarge(); // Show that GAS_DISCHARGE mode is running
 
-/*
-  Serial.print("button: ");
-  Serial.print(newMeasure);
-  Serial.print(" current: ");
-  Serial.print(currentTime);
-  Serial.print(" last: ");
-  Serial.println(timeSinceLastMeasurement);
-*/
-
   if (timeSinceLastMeasurement >= MEASURE_INTERVAL_GAS_DISCHARGE || newMeasure) {
     performMeasurement(sequenceGasDischarge, measureGasDischarge, PRESSURE_MEASUREMENTS_GAS_DISCHARGE, PRESSURE_HIGH_GAS_DISCHARGE, PRESSURE_LOW_GAS_DISCHARGE);
     lastGasDischargeMeasurementTime = millis();
