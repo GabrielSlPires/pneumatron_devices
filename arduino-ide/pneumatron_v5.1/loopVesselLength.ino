@@ -1,7 +1,7 @@
 const int PRESSURE_MEASUREMENTS_VESSEL_LENGTH = 300; // Number of pressure measurements during one vessel length measurement
 // Set pressure range inside discharge tube, in kPa
-const int PRESSURE_HIGH_VESSEL_LENGTH = 55; // pressure_high// try to make this in a dynamic way
-const int PRESSURE_LOW_VESSEL_LENGTH = 45; // pressure_low
+const float PRESSURE_HIGH_VESSEL_LENGTH = 55; // pressure_high// try to make this in a dynamic way
+const float PRESSURE_LOW_VESSEL_LENGTH = 45; // pressure_low
 
 // global variables
 int sequenceVesselLength = 1; // increase at every pressure measurement

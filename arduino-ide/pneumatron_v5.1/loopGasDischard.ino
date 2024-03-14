@@ -1,8 +1,8 @@
 const int PRESSURE_MEASUREMENTS_GAS_DISCHARGE = 120; // Number of pressure measurements during one gas discharge measurement
 const unsigned long MEASURE_INTERVAL_GAS_DISCHARGE = 15 * 60000; // Set time interval between each gas discharge measurement, in minutes * 60000
 // Set pressure range inside discharge tube, in kPa
-const int PRESSURE_HIGH_GAS_DISCHARGE = 85; // pressure_high// try to make this in a dynamic way
-const int PRESSURE_LOW_GAS_DISCHARGE = 45; // pressure_low
+const float PRESSURE_HIGH_GAS_DISCHARGE = 85; // pressure_high// try to make this in a dynamic way
+const float PRESSURE_LOW_GAS_DISCHARGE = 40; // pressure_low
 
 // global variables
 int sequenceGasDischarge = 1; // increase at every pressure measurement

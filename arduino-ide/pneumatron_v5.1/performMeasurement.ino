@@ -3,8 +3,8 @@ const int PRESSURE_DELAY = 500; // Time in ms between each pressure measurement 
 void performMeasurement(int &sequence, // increase at every pressure measurement
                         int &measure, // increase at every measurement of gas discharge or vessel length distribuition
                         int numPressureMeasures, // Number of pressure measurements during one measurement of gas discharge or vessel length distribuition
-                        int pressureHigh, // keep pressure between pressureHigh and pressureLow
-                        int pressureLow) {
+                        float pressureHigh, // keep pressure between pressureHigh and pressureLow
+                        float pressureLow) {
   // local variables
   int group = random(9999); // random group to make each measurement unique
   int logLine = 1; // during one measurement of gas discharge or vessel length distribuition, increase at every pressure measurement, then it is reset
@@ -34,8 +34,7 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
   digitalWrite(led2, LOW); // keep led2 LOW when not performing a measurement
 }
 
-void keepPressureInsideRange(int pressure, int pressureHigh, int pressureLow) { // Keep pressure between pressureHigh and pressureLow
-  if (pressure < pressureLow) { 
+void keepPressureInsideRange(float pressure, float pressureHigh, float pressureLow) { // Keep pressure between pressureHigh and pressureLow
     digitalWrite(pump, LOW);
     digitalWrite(solenoid, LOW);  
   } else if (pressure > pressureHigh) {
