@@ -126,11 +126,14 @@ void setup() {
 void loop() {
   buttonCheckChangeMode();
   switch (deviceMode) {
-    case (AIR_DISCHARGE):
-      loopAirDischarge();
+    case (GAS_DISCHARGE):
+      loopGasDischarge();
       break;
     case (VESSEL_LENGTH):
       loopVesselLength();
       break;
   }
+  // keep pump and solenoid off while not measuring
+  digitalWrite(pump, LOW);
+  digitalWrite(solenoid, LOW);
 }
