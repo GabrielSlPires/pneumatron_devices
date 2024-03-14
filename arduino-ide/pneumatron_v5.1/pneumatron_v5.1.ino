@@ -3,14 +3,25 @@
   by: Luciano Pereira & Gabriel Pires (gabriel.slpires@gmail.com)
 
   This code was developed for Pneumatron v5.1 and futher.
-  It can alternate between two mode, AIR_DISCHARGE and VESSEL_LENGTH, by pressing a button for 3s in the hardware
 
-  AIR_DISCHARGE mode: Measures the amount of air discharged trought time with a BMP280 sensor and send the data to a receiver module.
-  VESSEL_LENGTH mode: ...
+  Description:
+  It can alternate between two modes, GAS_DISCHARGE and VESSEL_LENGTH, by
+  pressing a button for 3s. Both modes performs a gas extraction measure with a
+  vacuum pump and a pressure sensor. But they are slightly distinct, and used
+  at different sets of experiments.
+
+  Data comunication to master....
+
+  Components:
+  A BMP280 sensor with a pressure accuracy of 1.2 kPa.
+  A generic vacuum pump capable of creating a partial vacuum of 40 kPa within the tubes.
+  A generic solenoid valve...
+
+  Modes:
+   -GAS_DISCHARGE: for vulnerability curves
+   -VESSEL_LENGTH: for vessel lenght distribution measurements
 
   
-  BMP280 has a pressure accuracy of 1.2 kPa
-
   Code available in: https://github.com/GabrielSlPires/pneumatron_devices
   Code developed in Arduino IDE 2.3.2 enviroment
 */
