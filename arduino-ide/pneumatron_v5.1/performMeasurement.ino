@@ -49,7 +49,6 @@ void sendData(int sequence, int logLine, int measure, int group, float pressure,
   data.logLine = logLine;
   data.measure = measure;
   data.group = group;
-  //data.humid = 0; // BMP280 do not measures humid
   data.pressure = pressure;
   data.temp = temperature;
   data.v = voltage;

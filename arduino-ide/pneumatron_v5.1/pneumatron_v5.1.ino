@@ -114,10 +114,10 @@ void setup() {
   // Register peer
   esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
 
-  data.version = "v3"; // remover depois
 
   // Custom actions to finish setup
   data.id = pneumatron;
+  data.version = "v3";
   data.humid = 0; // BMP280 do not measures humid
   randomSeed(micros() + pneumatron); //Start random generator
   startUpFlash();

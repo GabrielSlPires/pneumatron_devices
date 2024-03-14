@@ -37,8 +37,6 @@ bool buttonCheckNewMeasure() { // check if button 2 is pressed using a debounce 
   static ButtonState buttonState; // button state with debounce correction
   static ButtonState lastButtonState = UP;  // the previous reading from the input pin
   static unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
-
-  static int counter = 1;
   
   ButtonState currentState = buttonRead(btn2);
 
@@ -58,8 +56,6 @@ bool buttonCheckNewMeasure() { // check if button 2 is pressed using a debounce 
 
       // only trigger a new measurement if button2 was pressed
       if (buttonState == DOWN) {
-        data.humid = counter;
-        counter++;
         return true;
       }
     }
