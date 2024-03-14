@@ -1,4 +1,5 @@
 const int PRESSURE_DELAY = 500; // Time in ms between each pressure measurement during one measurement of gas discharge or vessel length distribuition
+const int PUMP_COUNTER_LIMIT = 2; // Maximum time the pressure pump is allowed to be on (2 = 2 * 500ms (PRESSURE_DELAY) = 1s)
 
 void performMeasurement(int &sequence, // increase at every pressure measurement
                         int &measure, // increase at every measurement of gas discharge or vessel length distribuition
@@ -35,12 +36,19 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
 }
 
 void keepPressureInsideRange(float pressure, float pressureHigh, float pressureLow) { // Keep pressure between pressureHigh and pressureLow
+  static int counter = 0;
+
+  if (pressure < pressureLow | counter >= PUMP_COUNTER_LIMIT) {  // if pump is on for more than one minute enter here
+    counter = 0;
     digitalWrite(pump, LOW);
     digitalWrite(solenoid, LOW);  
-  } else if (pressure > pressureHigh) {
+  }
+  if (pressure > pressureHigh) {
+    counter = 0;
     digitalWrite(pump, HIGH);
     digitalWrite(solenoid, HIGH);
   }
+  counter++;
 }
 
 void sendData(int sequence, int logLine, int measure, int group, float pressure, float temperature, float voltage) {
