@@ -1,5 +1,6 @@
 const int PRESSURE_MEASUREMENTS_GAS_DISCHARGE = 120; // Number of pressure measurements during one gas discharge measurement
 const unsigned long MEASURE_INTERVAL_GAS_DISCHARGE = 15 * 60000; // Set time interval between each gas discharge measurement, in minutes * 60000
+const unsigned long PRESSURE_EQUILIBRATE_DELAY = 1000; // Set time solenoid valve woulbe open for pressure inside tubes equilibrate with atm pressure when not performing a measurement
 // Set pressure range inside discharge tube, in kPa
 const float PRESSURE_HIGH_GAS_DISCHARGE = 85; // pressure_high// try to make this in a dynamic way
 const float PRESSURE_LOW_GAS_DISCHARGE = 40; // pressure_low
