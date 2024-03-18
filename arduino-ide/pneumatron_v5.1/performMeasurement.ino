@@ -12,6 +12,7 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
   float pressure;
   float temperature;
   float voltage;
+  bool pumpActivate = true; // at first pressure measure turns pump ON
 
   // during a measure only led2 is on
   digitalWrite(led1, LOW);
@@ -23,8 +24,9 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
     temperature = bmp.readTemperature();
     voltage = ESP.getVcc() / 1000.0;
 
-    keepPressureInsideRange(pressure, pressureHigh, pressureLow); // Keep pressure range inside tubes
+    keepPressureInsideRange(pressure, pressureHigh, pressureLow, pumpActivate); // Keep pressure range inside tubes
     sendData(sequence, logLine, measure, group, pressure, temperature, voltage); // Send sensors data
+    pumpActivate = false; // after first pressure measure turns pump ON only if pressure is out of range
     
     sequence++;
     logLine++;
@@ -36,20 +38,19 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
   digitalWrite(led2, LOW); // keep led2 LOW when not performing a measurement
 }
 
-void keepPressureInsideRange(float pressure, float pressureHigh, float pressureLow) { // Keep pressure between pressureHigh and pressureLow
-  static int counter = 0;
+void keepPressureInsideRange(float pressure, float pressureHigh, float pressureLow, bool pumpActivate) { // Keep pressure between pressureHigh and pressureLow
+  static bool pumpDeactivate = false;
 
-  if (pressure < pressureLow | counter >= PUMP_COUNTER_LIMIT) {  // if pump is on for more than one minute enter here
-    counter = 0;
+  if (pressure < pressureLow || pumpDeactivate) {  // if pump was previous on, shut it down
+    pumpDeactivate = false;
     digitalWrite(pump, LOW);
     digitalWrite(solenoid, LOW);  
   }
-  if (pressure > pressureHigh) {
-    counter = 0;
+  if (pressure > pressureHigh || pumpActivate) { // at first pressure measure turns pump ON
+    pumpDeactivate = true;
     digitalWrite(pump, HIGH);
     digitalWrite(solenoid, HIGH);
   }
-  counter++;
 }
 
 void sendData(int sequence, int logLine, int measure, int group, float pressure, float temperature, float voltage) {
