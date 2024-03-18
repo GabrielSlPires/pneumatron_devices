@@ -28,12 +28,18 @@ void loopGasDischarge() {
 }
 
 void equilibratePressure() { // Equilibrate pressure with atmosfere
+  bool openSolenoid = true;
   float pressure;
 
   pressure = bmp.readPressure() / 1000.0F;
-  if (pressure < PRESSURE_HIGH_GAS_DISCHARGE) { 
+  if (pressure < 0) { // if there is failure during pressure readings this avoids solenoind overheating
+    openSolenoid = false;
+    ledBMP280failed();
+  }
+  
+  if (pressure < PRESSURE_HIGH_GAS_DISCHARGE && openSolenoid) { 
     digitalWrite(solenoid, HIGH);
-    delay(1000);
+    delay(PRESSURE_EQUILIBRATE_DELAY);
     digitalWrite(solenoid, LOW);
   }
 }
