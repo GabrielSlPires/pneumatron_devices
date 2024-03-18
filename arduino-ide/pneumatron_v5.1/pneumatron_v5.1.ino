@@ -93,6 +93,13 @@ void setup() {
     ledBMP280failed();
     Serial.println("Failed to initialize BMP280");
   }
+  // Set BMP280 for ultra high pressure resolution
+  // Setings from BMP280 datasheet Table 15, "use case": Indoor Navigation
+  bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     // Operating Mode
+                  Adafruit_BMP280::SAMPLING_X2,     // Temp. oversampling
+                  Adafruit_BMP280::SAMPLING_X16,    // Pressure oversampling
+                  Adafruit_BMP280::FILTER_X16 ,     // Filtering
+                  Adafruit_BMP280::STANDBY_MS_1);   // Standby time
 
   // initialize Wifi communication
   // Set device as a Wi-Fi Station
