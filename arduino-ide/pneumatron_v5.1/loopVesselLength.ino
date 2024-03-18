@@ -12,7 +12,6 @@ void loopVesselLength() {
   bool newMeasure = buttonCheckNewMeasure(); // Trigger a new vessel length measurement if button 2 is pressed
   
   if (deviceMode != VESSEL_LENGTH) { // only continues if deviceMode is GAS_DISCHARGE
-    data.version = "erro2";
     return;
   }
   ledFlashVesselLength(); // Show that GAS_DISCHARGE mode is running

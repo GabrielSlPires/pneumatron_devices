@@ -16,7 +16,6 @@ void loopGasDischarge() {
   unsigned long timeSinceLastMeasurement = currentTime - lastGasDischargeMeasurementTime;
   
   if (deviceMode != GAS_DISCHARGE) { // only continues if deviceMode is GAS_DISCHARGE
-    data.version = "erro1";
     return;
   }
   ledFlashGasDischarge(); // Show that GAS_DISCHARGE mode is running

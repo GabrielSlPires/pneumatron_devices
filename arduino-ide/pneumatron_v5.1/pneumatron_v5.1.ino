@@ -69,13 +69,11 @@ struct { // data structure for wireless communication
 } data; // adicionar uma nova coluna, mode: ad ou vld
 
 // global variables
+unsigned long lastMeasurementTime = millis(); // Created to avoid button triggers after measurements
 DeviceMode deviceMode = GAS_DISCHARGE; // Start with GAS_DISCHARGE
 Adafruit_BMP280 bmp; // For BMP280
 
 ADC_MODE(ADC_VCC);  // to measure voltage
-
-// functions prototypes
-
 
 void setup() {
   // initialize serial communication
@@ -114,13 +112,12 @@ void setup() {
   // Register peer
   esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
 
-
   // Custom actions to finish setup
+  startUpFlash();
   data.id = pneumatron;
-  data.version = "v3";
+  data.version = "v3"; // data structure version
   data.humid = 0; // BMP280 do not measures humid
   randomSeed(micros() + pneumatron); //Start random generator
-  startUpFlash();
 }
 
 void loop() {

@@ -32,6 +32,7 @@ void performMeasurement(int &sequence, // increase at every pressure measurement
   }
   
   measure++;
+  lastMeasurementTime = millis(); // Updated to avoid button triggers after measurements
   digitalWrite(led2, LOW); // keep led2 LOW when not performing a measurement
 }
 
