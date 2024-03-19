@@ -94,12 +94,12 @@ void setup() {
     Serial.println("Failed to initialize BMP280");
   }
   // Set BMP280 for ultra high pressure resolution
-  // Setings from BMP280 datasheet Table 15, "use case": Indoor Navigation
+  // Setings based from BMP280 datasheet Table 15, "use case": Indoor Navigation
   bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     // Operating Mode
                   Adafruit_BMP280::SAMPLING_X2,     // Temp. oversampling
                   Adafruit_BMP280::SAMPLING_X16,    // Pressure oversampling
                   Adafruit_BMP280::FILTER_OFF,      // Filtering, changed to OFF because vaccum pump is our "noise"
-                  Adafruit_BMP280::STANDBY_MS_1);   // Standby time
+                  Adafruit_BMP280::STANDBY_MS_250);   // Standby time, based on BMP280 datasheet Table 14, change for 250 ms for output data rate = 3.5Hz (we need 2Hz at least)
 
   // initialize Wifi communication
   // Set device as a Wi-Fi Station
