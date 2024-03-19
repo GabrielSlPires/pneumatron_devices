@@ -1,5 +1,4 @@
 const int PRESSURE_DELAY = 500; // Time in ms between each pressure measurement during one measurement of gas discharge or vessel length distribuition
-const int PUMP_COUNTER_LIMIT = 2; // Maximum time the pressure pump is allowed to be on (2 = 2 * 500ms (PRESSURE_DELAY) = 1s)
 
 void performMeasurement(int &sequence, // increase at every pressure measurement
                         int &measure, // increase at every measurement of gas discharge or vessel length distribuition
